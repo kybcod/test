@@ -51,12 +51,30 @@ $(function(){
 	})
 })
 </script>
+<script>
+$(document).ready(function(){
+	$("#profile").on("change", handleImgFileSelect);
+})
+function handleImgFileSelect(e){
+	var files = e.target.files;
+	var reader = new FileReader();
+	reader.onload = function(e){
+		$("#img").attr("src", e.target.result);
+		$("#img").css("display", "block");			
+	}
+	reader.readAsDataURL(files[0]);
+}
+</script>
 </head>
 <body>
 <c:import url="/WEB-INF/fragment/navbar.jsp"/>
 	<div>
 		<h1>회원가입</h1>
 		<form action="/join" id="join" method="post">
+			<div>
+				<img id="img" style="height:200px; width:200px; display:none;">
+				<input type="file" accept="image/*" id="profile" name="profile">
+			</div>
 		    <div>
 		        이메일 <input type="email" id="email" name="email">
 		        <button>중복확인</button>

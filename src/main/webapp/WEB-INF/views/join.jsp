@@ -8,6 +8,22 @@
 <title>Sign Up</title> 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
+// 파일 미리보기
+$(document).ready(function(){
+	$("#profile").on("change", handleImgFileSelect);
+})
+function handleImgFileSelect(e){
+	var files = e.target.files;
+	var reader = new FileReader();
+	reader.onload = function(e){
+		$("#img").attr("src", e.target.result);
+		$("#img").css("display", "block");			
+	}
+	reader.readAsDataURL(files[0]);
+}
+
+// 제출 버튼 : 파일, 이메일, 비밀번호, 닉네임 전송
 $(function(){
 	$("#btn_join").click(function(){
 		var email = $("email").val();
@@ -32,18 +48,19 @@ $(function(){
 		
 		
 		//ajax 비동기 통신
-		var formData = $("join").serialize();
+		// var formData = $("join").serialize();
+		var formData = new FormData($("#join")[0]);
 		
 		$.ajax({
-			type:"POST",
-			data:formData,
-			url:"join",
-			dataType:"text",
-			
-			success:function(){
+			type: "POST",
+			url: "/join",
+			data: formData,
+			processData: false, // 필수: 데이터를 쿼리 스트링으로 처리하지 않도록 설정
+			contentType: false, // 필수: 파일 업로드를 위해 multipart/form-data로 설정
+			success: function(){
 				alert("저장 완료");
 			},
-			error:function(){
+			error: function(){
 				alert("오류발생");
 			}
 		})
@@ -51,26 +68,12 @@ $(function(){
 	})
 })
 </script>
-<script>
-$(document).ready(function(){
-	$("#profile").on("change", handleImgFileSelect);
-})
-function handleImgFileSelect(e){
-	var files = e.target.files;
-	var reader = new FileReader();
-	reader.onload = function(e){
-		$("#img").attr("src", e.target.result);
-		$("#img").css("display", "block");			
-	}
-	reader.readAsDataURL(files[0]);
-}
-</script>
 </head>
 <body>
 <c:import url="/WEB-INF/fragment/navbar.jsp"/>
 	<div>
 		<h1>회원가입</h1>
-		<form action="/join" id="join" method="post">
+		<form action="/join" id="join" method="post" enctype="multipart/form-data">
 			<div>
 				<img id="img" style="height:200px; width:200px; display:none;">
 				<input type="file" accept="image/*" id="profile" name="profile">

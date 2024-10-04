@@ -23,34 +23,37 @@ function handleImgFileSelect(e){
 	reader.readAsDataURL(files[0]);
 }
 
-// 제출 버튼 : 파일, 이메일, 비밀번호, 닉네임 전송
+//제출 버튼 : 파일, 이메일, 비밀번호, 닉네임 전송
 $(function(){
-	$("#btn_join").click(function(){
-		var email = $("email").val();
-		var password = $("pw").val();
-		var nickName = $("nickName").val();
+	$("#btn_join").click(function(e){
+	
+		var email = $("#email").val();
+		var password = $("#pw").val();
+		var nickName = $("#nickName").val();
 		
 		if(email == ""){
 			alert("이메일 입력하세요.");
-			$("email").focus();
+			$("#email").focus();
 			return false;
 		}
 		if(password == ""){
 			alert("비밀번호 입력하세요.");
-			$("password").focus();
+			$("#password").focus();
 			return false;
 		}
 		if(nickName == ""){
 			alert("닉네임 입력하세요.");
-			$("nickName").focus();
+			$("#nickName").focus();
 			return false;
 		}
 		
-		
-		//ajax 비동기 통신
-		// var formData = $("join").serialize();
-		var formData = new FormData($("#join")[0]);
-		
+		// 폼 데이터를 명시적으로 설정
+		var formData = new FormData();
+		formData.append("email", email);
+		formData.append("password", password);
+		formData.append("nickName", nickName);
+		formData.append("file", $("#profile")[0].files[0]); // 파일 처리
+
 		$.ajax({
 			type: "POST",
 			url: "/join",
@@ -64,7 +67,6 @@ $(function(){
 				alert("오류발생");
 			}
 		})
-		
 	})
 })
 </script>
@@ -73,14 +75,14 @@ $(function(){
 <c:import url="/WEB-INF/fragment/navbar.jsp"/>
 	<div>
 		<h1>회원가입</h1>
-		<form action="/join" id="join" method="post" enctype="multipart/form-data">
+		<form id="join" enctype="multipart/form-data" method="post" action="/join">
 			<div>
 				<img id="img" style="height:200px; width:200px; display:none;">
 				<input type="file" accept="image/*" id="profile" name="profile">
 			</div>
 		    <div>
 		        이메일 <input type="email" id="email" name="email">
-		        <button>중복확인</button>
+		        <button type="button">중복확인</button>
 		    </div>
 		    <div>
 		        비밀번호 <input type="password" id="pw" name="password">
@@ -90,13 +92,12 @@ $(function(){
 		    </div>
 		    <div>
 		        닉네임 <input type="text" id="nickName" name="nickName">
-		        <button>중복확인</button>
+		        <button type="button">중복확인</button>
 		    </div>
 		    <div>
-		        <input type="submit" value="가입" id="btn_join">
+		        <button type="button" id="btn_join">가입</button>
 		    </div>
 		</form>
-
 	</div>
 </body>
 </html>

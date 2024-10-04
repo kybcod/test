@@ -2,6 +2,7 @@ package com.example.demo.Member;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 @Mapper
 public interface MemberMapper {

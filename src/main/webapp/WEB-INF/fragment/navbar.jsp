@@ -10,6 +10,7 @@
 </head>
 <body>
 <a href="/">홈</a>
-<a href="join">로그인</a>
+<a href="/join">회원가입</a>
+<a href="/member/list">회원목록</a>
 </body>
 </html>

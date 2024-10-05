@@ -29,5 +29,11 @@ public class MemberController {
 		memberService.insert(member, profile);
 		return "redirect:/";
 	}
+	
+	@GetMapping("/member/list")
+	public String memberList(Member member, Model model) {
+		model.addAttribute("memberList", memberService.list());
+		return "list";
+	};
 }
 

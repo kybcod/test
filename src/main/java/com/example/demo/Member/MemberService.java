@@ -35,7 +35,6 @@ public class MemberService {
 		
 		if(!profile.isEmpty()) {
 			String fileName = profile.getOriginalFilename();
-			fileName = fileName.substring(fileName.lastIndexOf("\\")+1);
 			File saveFile = new File(profileDir, fileName);
 			profile.transferTo(saveFile);
 			member.setProfile(fileName);

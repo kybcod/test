@@ -26,7 +26,9 @@
 		<c:forEach items="${memberList}" var="member">
 			<tr>
 				<td>${member.id}</td>
-				<td>${member.profile}</td>
+				<td>
+					<img src="${member.profile}" alt="프로필 이미지" width="100">
+				</td>
 				<td>${member.email }</td>
 				<td>${member.nickName}</td>
 				<td>${member.inserted}</td>

@@ -1,5 +1,6 @@
 package com.example.demo.Member;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,22 +22,37 @@ import lombok.RequiredArgsConstructor;
 public class MemberService {
 	
 	private final MemberMapper memberMapper;
-
-	@Value("${file.upload-dir}")
-	private String profileDir;
 	
 	public void insert(Member member, MultipartFile profile) throws IOException {
+		
+		String profileDir = "C:\\upload_data\\temp";
+		
+		// 경로가 존재하지 않으면 생성
+	    File directory = new File(profileDir);
+	    if (!directory.exists()) {
+	        directory.mkdirs(); // 모든 경로의 부모 디렉토리도 생성
+	    }
+		
 		if(!profile.isEmpty()) {
 			String fileName = profile.getOriginalFilename();
-			Path filePath = Paths.get(profileDir, fileName);
-			Files.copy(profile.getInputStream(), filePath);
+			fileName = fileName.substring(fileName.lastIndexOf("\\")+1);
+			File saveFile = new File(profileDir, fileName);
+			profile.transferTo(saveFile);
 			member.setProfile(fileName);
 		}
 		memberMapper.insert(member);
 	}
 
 	public List<Member> list() {
-		return memberMapper.selectMemberAll();
-	}
+        List<Member> members = memberMapper.selectMemberAll();
+        for (Member member : members) {
+            String profileFileName = member.getProfile();
+            if (profileFileName != null && !profileFileName.isEmpty()) {
+                String profileUrl = "/profile/" + profileFileName; // 리소스 핸들러에서 설정한 경로에 맞게
+                member.setProfile(profileUrl);
+            }
+        }
+        return members;
+    }
 
 }

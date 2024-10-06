@@ -54,4 +54,8 @@ public class MemberService {
         return members;
     }
 
+	public Member getSelectOne(Member member) {
+		return memberMapper.selectOne(member);
+	}
+
 }

@@ -15,4 +15,7 @@ public interface MemberMapper {
 
 	@Select("SELECT * FROM member")
 	List<Member> selectMemberAll();
+
+	@Select("SELECT * FROM member WHERE email=#{email} AND password=#{password}")
+	Member selectOne(Member member);
 }

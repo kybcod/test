@@ -8,11 +8,9 @@
 <title></title> 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+<script type="text/javascript">
+	window.location.href="/";
+</script>
 <body>
-<a href="/">홈</a>
-<a href="/login">로그인</a>
-<a href="/logout">로그아웃</a>
-<a href="/join">회원가입</a>
-<a href="/member/list">회원목록</a>
 </body>
 </html>

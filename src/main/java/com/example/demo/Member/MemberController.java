@@ -49,5 +49,12 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/logout")
+	public void logout() {}
+	
+	@PostMapping("/logout")
+	public void logout(Member member, HttpSession session) {
+		session.removeAttribute("member");
+	}
 }
 
